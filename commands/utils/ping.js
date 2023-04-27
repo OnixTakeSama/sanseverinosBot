@@ -5,6 +5,6 @@ module.exports = {
         .setName('ping')
         .setDescription('Display bot latency'),
     async execute(interaction){
-        await interaction.reply({content : '🏓 | Pong'});
+        await interaction.reply({content : `🏓 | La latence est de ${interaction.createdTimestamp - interaction.createdTimestamp} ms.`});
     },
 };

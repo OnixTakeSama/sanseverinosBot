@@ -3,24 +3,24 @@ const axios = require('axios');
 
 module.exports = {
     data : new SlashCommandBuilder()
-        .setName('setstock')
-        .setDescription('Set the lab stock')
+        .setName('stock')
+        .setDescription('Display the lab stock')
         .addStringOption(option => option.setName('acide').setDescription(`Acid count`).setRequired(true))
         .addStringOption(option => option.setName('graines').setDescription(`Seed count`).setRequired(true))
         .addStringOption(option => option.setName('coke').setDescription(`Coke count`).setRequired(true)),
     async execute(interaction){
-        await interaction.reply({content:"Stock mis à jour"});
+        await interaction.reply({content:"Voici le stock disponible : "});
 
-        const acide = interaction.options.getString('acide');
+        const acide = axios.get()
         const graines = interaction.options.getString('graines');
         const coke = interaction.options.getString('coke');
 
         axios.post('https://sheetdb.io/api/v1/3v425scd03u1p',{
             data: {
-                    acide: `${acide}`,
-                    graines: `${graines}`,
-                    coke: `${coke}`
-                }
-            })
-        }
+                acide: `${acide}`,
+                graines: `${graines}`,
+                coke: `${coke}`
+            }
+        })
+    }
 };

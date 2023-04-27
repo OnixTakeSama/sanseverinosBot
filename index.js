@@ -9,12 +9,12 @@ dotenv.config();
 
 // Client creation
 const allIntents = new IntentsBitField(7796);
-const discordClient = new Client({
+const client = new Client({
     intents : allIntents
 });
 
 // Slash commands handler
-discordClient.commands = new Collection();
+client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
@@ -25,30 +25,30 @@ for (const folder of commandFolders){
         const filePath = path.join(commandsPath, file);
         const command = require(filePath);
         if ('data' in command && 'execute' in command) {
-            discordClient.commands.set(command.data.name, command);
+            client.commands.set(command.data.name, command);
         } else {
             console.log(`La commande du chemin ${filePath} est incomplète.`)
         }
     }
 };
 
-// Events
-discordClient.on("ready", () => {
-    console.log("Bot ON");
+    // Events
+    client.on("ready", () => {
+        console.log("Bot ON");
 
-    discordClient.on(Events.InteractionCreate, interaction => {
+    client.on(Events.InteractionCreate, interaction => {
         console.log(interaction);
     });
 
-    discordClient.on(Events.InteractionCreate, interaction => {
+    client.on(Events.InteractionCreate, interaction => {
         if (!interaction.isChatInputCommand()) return;
         console.log(interaction);
     });
 
-    discordClient.on(Events.InteractionCreate, async interaction => {
+    client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isChatInputCommand()) return;
 
-        const command = interaction.discordClient.commands.get(interaction.commandName);
+        const command = interaction.client.commands.get(interaction.commandName);
 
         if (!command) {
             console.error(`Aucune commande ne correspond à ${interaction.commandName}`);
@@ -70,4 +70,4 @@ discordClient.on("ready", () => {
 
 
 // Login
-discordClient.login(token);
+client.login(token);
