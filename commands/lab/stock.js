@@ -4,23 +4,34 @@ const axios = require('axios');
 module.exports = {
     data : new SlashCommandBuilder()
         .setName('stock')
-        .setDescription('Display the lab stock')
-        .addStringOption(option => option.setName('acide').setDescription(`Acid count`).setRequired(true))
-        .addStringOption(option => option.setName('graines').setDescription(`Seed count`).setRequired(true))
-        .addStringOption(option => option.setName('coke').setDescription(`Coke count`).setRequired(true)),
+        .setDescription('Display the lab stock'),
     async execute(interaction){
-        await interaction.reply({content:"Voici le stock disponible : "});
+        const response = await axios.get('https://sheetdb.io/api/v1/3v425scd03u1p');
 
-        const acide = axios.get()
-        const graines = interaction.options.getString('graines');
-        const coke = interaction.options.getString('coke');
+        const lastRow = response.data.pop();
 
-        axios.post('https://sheetdb.io/api/v1/3v425scd03u1p',{
-            data: {
-                acide: `${acide}`,
-                graines: `${graines}`,
-                coke: `${coke}`
-            }
-        })
-    }
+        const stockEmbed = {
+            color: 0x0099ff,
+            title: 'Stock',
+            fields: [
+                {
+                    name: '⛽ | Acide',
+                    value: lastRow.acide,
+                    inline: true,
+                },
+                {
+                    name: '🌱 | Graines',
+                    value: lastRow.graines,
+                    inline: true,
+                },
+                {
+                    name: '💊 | Coke',
+                    value: lastRow.coke,
+                    inline: true,
+                },
+            ],
+        };
+
+        await interaction.reply({ embeds: [stockEmbed] });
+    },
 };

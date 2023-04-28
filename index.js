@@ -1,11 +1,8 @@
 const { Client, GatewayIntentBits, Events, Collection, IntentsBitField} = require("discord.js");
 const Discord = require('discord.js');
-const dotenv = require('dotenv');
 const fs = require('fs');
 const path = require('node:path');
 const { token } = require('./config.json');
-
-dotenv.config();
 
 // Client creation
 const allIntents = new IntentsBitField(7796);
