@@ -64,7 +64,10 @@ for (const folder of commandFolders){
     })
 });
 
-
+// RPC
+async function activity(){
+    
+}
 
 // Login
 client.login(token);

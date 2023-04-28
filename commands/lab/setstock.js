@@ -14,12 +14,14 @@ module.exports = {
         const acide = interaction.options.getString('acide');
         const graines = interaction.options.getString('graines');
         const coke = interaction.options.getString('coke');
+        userID = interaction.user.id;
 
         axios.post('https://sheetdb.io/api/v1/3v425scd03u1p',{
             data: {
                     acide: `${acide}`,
                     graines: `${graines}`,
-                    coke: `${coke}`
+                    coke: `${coke}`,
+                    user: `${userID}`
                 }
             })
         }
