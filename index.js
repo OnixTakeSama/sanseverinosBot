@@ -27,47 +27,42 @@ for (const folder of commandFolders){
             console.log(`La commande du chemin ${filePath} est incomplète.`)
         }
     }
-};
+}
 
     // Events
     client.on("ready", () => {
         console.log("Bot ON");
 
-    client.on(Events.InteractionCreate, interaction => {
-        console.log(interaction);
-    });
+        client.on(Events.InteractionCreate, interaction => {
+            console.log(interaction);
+        });
 
-    client.on(Events.InteractionCreate, interaction => {
-        if (!interaction.isChatInputCommand()) return;
-        console.log(interaction);
-    });
+        client.on(Events.InteractionCreate, interaction => {
+            if (!interaction.isChatInputCommand()) return;
+            console.log(interaction);
+        });
 
-    client.on(Events.InteractionCreate, async interaction => {
-        if (!interaction.isChatInputCommand()) return;
+        client.on(Events.InteractionCreate, async interaction => {
+            if (!interaction.isChatInputCommand()) return;
 
-        const command = interaction.client.commands.get(interaction.commandName);
+            const command = interaction.client.commands.get(interaction.commandName);
 
-        if (!command) {
-            console.error(`Aucune commande ne correspond à ${interaction.commandName}`);
-            return;
-        }
-
-        try{
-            await command.execute(interaction);
-        } catch (error) {
-            if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({content: 'Une erreur a été rencontrée', ephemeral: true});
-            } else {
-                await interaction.reply({content: 'Une erreur a été rencontrée', ephemeral: true});
+            if (!command) {
+                console.error(`Aucune commande ne correspond à ${interaction.commandName}`);
+                return;
             }
-        }
-    })
-});
 
-// RPC
-async function activity(){
-    
-}
+            try{
+                await command.execute(interaction);
+            } catch (error) {
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp({content: 'Une erreur a été rencontrée', ephemeral: true});
+                } else {
+                    await interaction.reply({content: 'Une erreur a été rencontrée', ephemeral: true});
+                }
+            }
+        })
+    });
 
 // Login
 client.login(token);
